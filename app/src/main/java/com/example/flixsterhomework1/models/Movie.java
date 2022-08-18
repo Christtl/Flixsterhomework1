@@ -1,20 +1,27 @@
 package com.example.flixsterhomework1.models;
 
 import androidx.annotation.NonNull;
+import androidx.versionedparcelable.ParcelField;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+ @Parcel
 public class Movie {
 
     String backdroPath;
     String posterPath;
     String title;
     String overview;
+    double rating;
+
+   // empty constructor needed by the Parceler library
+    public Movie() {}
 
     public Movie(JSONObject jsonObject) throws JSONException {
         backdroPath=jsonObject.getString("backdrop_path");
@@ -22,6 +29,7 @@ public class Movie {
 
         title =jsonObject.getString("title");
         overview=jsonObject.getString("overview");
+       rating =jsonObject.getDouble("vote_average");
     }
 
     public String getBackdropPath() {
@@ -40,8 +48,11 @@ public class Movie {
         return overview;
     }
 
+     public double getRating() {
+         return rating;
+     }
 
-@NonNull
+     @NonNull
     public static List<Movie>FromJSONArray(@NonNull JSONArray movieJsonArray) throws JSONException {
         List<Movie> movies = new ArrayList<>();
         for (int i = 0; i<movieJsonArray.length(); i++) {
